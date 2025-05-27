@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenFood Menu Schema",
+  "version": "0.1.0",
+  "description": "A standardized schema for digital restaurant menus",
+  "type": "object",
+  "required": ["restaurant", "menu"],
+  "properties": {
+    "restaurant": {
+      "type": "object",
+      "required": ["id", "name", "location", "currency", "language"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "location": { "type": "string" },
+        "currency": { "type": "string" },
+        "language": { "type": "string" },
+        "certifications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["kosher", "halal"]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "menu": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "price"],
+        "properties": {
+          "id": { "type": "string" },
+
+          "name": {
+            "type": "object",
+            "minProperties": 1,
+            "patternProperties": {
+              "^[a-z]{2}$": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+
+          "description": {
+            "type": "object",
+            "patternProperties": {
+              "^[a-z]{2}$": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+
+          "category": { "type": "string" },
+
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+
+          "nutritional_info": {
+            "type": "object",
+            "properties": {
+              "calories": { "type": "number", "minimum": 0 },
+              "protein": { "type": "number", "minimum": 0 },
+              "fat": { "type": "number", "minimum": 0 },
+              "carbohydrates": { "type": "number", "minimum": 0 },
+              "sugar": { "type": "number", "minimum": 0 }
+            },
+            "additionalProperties": false
+          },
+          "allergens": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "crustaceans",
+                "eggs",
+                "fish",
+                "peanuts",
+                "soybeans",
+                "milk",
+                "nuts",
+                "celery",
+                "mustard",
+                "sesame",
+                "lupin",
+                "sulphites",
+                "molluscs",
+                "gluten"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "vegan",
+                "vegetarian",
+                "gluten-free",
+                "nut-free",
+                "dairy-free"
+              ]
+            },
+            "uniqueItems": true
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "amount_grams"],
+              "properties": {
+                "name": { "type": "string" },
+                "amount_grams": { "type": "number", "minimum": 0 },
+                "raw_or_cooked": {
+                  "type": "string",
+                  "enum": ["raw", "cooked"],
+                  "default": "cooked"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

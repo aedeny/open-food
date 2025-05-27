@@ -1,0 +1,127 @@
+{
+  "restaurant": {
+    "id": "r123",
+    "name": "Green Garden",
+    "location": "Tel Aviv, Israel",
+    "currency": "ILS",
+    "language": "en"
+  },
+  "menu": [
+    {
+      "id": "d1001",
+      "name": {
+        "en": "Vegan Buddha Bowl",
+        "he": "קערת בודהה טבעונית"
+      },
+      "description": {
+        "en": "Quinoa, chickpeas, roasted veggies, tahini dressing",
+        "he": "קינואה, חומוס, ירקות צלויים, רוטב טחינה"
+      },
+      "category": "Main Dishes",
+      "price": 48.0,
+      "nutritional_info": {
+        "calories": 520,
+        "protein": 18,
+        "fat": 20,
+        "carbohydrates": 60,
+        "sugar": 6
+      },
+      "allergens": ["sesame"],
+      "tags": ["vegan", "gluten-free"],
+      "ingredients": [
+        { "name": "quinoa", "amount_grams": 150 },
+        { "name": "chickpeas", "amount_grams": 100 },
+        { "name": "roasted sweet potato", "amount_grams": 120 },
+        { "name": "roasted bell peppers", "amount_grams": 80 },
+        { "name": "fresh spinach", "amount_grams": 50, "raw_or_cooked": "raw" },
+        { "name": "tahini", "amount_grams": 30 }
+      ]
+    },
+    {
+      "id": "d1002",
+      "name": {
+        "en": "Mediterranean Salad",
+        "he": "סלט ים תיכוני"
+      },
+      "description": {
+        "en": "Fresh tomatoes, cucumbers, olives, feta cheese, olive oil dressing"
+      },
+      "category": "Starters",
+      "price": 32.0,
+      "nutritional_info": {
+        "calories": 320,
+        "protein": 10,
+        "fat": 24,
+        "carbohydrates": 15,
+        "sugar": 8
+      },
+      "allergens": ["milk"],
+      "tags": ["vegetarian", "gluten-free"],
+      "ingredients": [
+        { "name": "tomatoes", "amount_grams": 120, "raw_or_cooked": "raw" },
+        { "name": "cucumbers", "amount_grams": 100, "raw_or_cooked": "raw" },
+        { "name": "olives", "amount_grams": 40 },
+        { "name": "feta cheese", "amount_grams": 60 },
+        { "name": "olive oil", "amount_grams": 15 },
+        { "name": "lemon juice", "amount_grams": 10, "raw_or_cooked": "raw" }
+      ]
+    },
+    {
+      "id": "d1003",
+      "name": {
+        "en": "Tofu Stir-Fry",
+        "fr": "Sauté de Tofu"
+      },
+      "description": {
+        "en": "Tofu with seasonal vegetables in teriyaki sauce",
+        "fr": "Tofu avec légumes de saison dans une sauce teriyaki"
+      },
+      "category": "Main Dishes",
+      "price": 42.0,
+      "nutritional_info": {
+        "calories": 380,
+        "protein": 22,
+        "fat": 16,
+        "carbohydrates": 35,
+        "sugar": 12
+      },
+      "allergens": ["soy", "wheat"],
+      "tags": ["vegan"],
+      "ingredients": [
+        { "name": "tofu", "amount_grams": 200 },
+        { "name": "broccoli", "amount_grams": 100 },
+        { "name": "bell peppers", "amount_grams": 80 },
+        { "name": "carrots", "amount_grams": 70 },
+        { "name": "teriyaki sauce", "amount_grams": 40 }
+      ]
+    },
+    {
+      "id": "d1004",
+      "name": {
+        "en": "Grilled Salmon",
+        "he": "סלמון צלוי"
+      },
+      "description": {
+        "en": "Wild-caught salmon with lemon-herb sauce, served with roasted potatoes"
+      },
+      "category": "Main Dishes",
+      "price": 68.0,
+      "nutritional_info": {
+        "calories": 450,
+        "protein": 38,
+        "fat": 22,
+        "carbohydrates": 25,
+        "sugar": 2
+      },
+      "allergens": ["fish"],
+      "tags": ["gluten-free", "dairy-free"],
+      "ingredients": [
+        { "name": "salmon fillet", "amount_grams": 180 },
+        { "name": "potatoes", "amount_grams": 150 },
+        { "name": "olive oil", "amount_grams": 15 },
+        { "name": "lemon juice", "amount_grams": 10 },
+        { "name": "fresh herbs", "amount_grams": 5, "raw_or_cooked": "raw" }
+      ]
+    }
+  ]
+}
