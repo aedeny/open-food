@@ -6,6 +6,11 @@
   "type": "object",
   "required": ["restaurant", "menu"],
   "properties": {
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO timestamp when this schema was generated"
+    },
     "restaurant": {
       "type": "object",
       "required": ["id", "name", "location", "currency", "language"],
@@ -32,6 +37,11 @@
         "required": ["id", "name", "price"],
         "properties": {
           "id": { "type": "string" },
+
+          "external_id": {
+            "type": "string",
+            "description": "External reference for POS, inventory, or ERP systems"
+          },
 
           "name": {
             "type": "object",
@@ -68,6 +78,7 @@
             },
             "additionalProperties": false
           },
+
           "allergens": {
             "type": "array",
             "items": {
@@ -91,6 +102,7 @@
             },
             "uniqueItems": true
           },
+
           "tags": {
             "type": "array",
             "items": {
@@ -100,11 +112,13 @@
                 "vegetarian",
                 "gluten-free",
                 "nut-free",
-                "dairy-free"
+                "dairy-free",
+                "organic"
               ]
             },
             "uniqueItems": true
           },
+
           "ingredients": {
             "type": "array",
             "items": {
@@ -120,6 +134,191 @@
                 }
               },
               "additionalProperties": false
+            }
+          },
+
+          "modifications": {
+            "type": "array",
+            "description": "Available modifications that can be made to this dish",
+            "items": {
+              "type": "object",
+              "required": ["id", "name", "type"],
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "description": {
+                  "type": "object",
+                  "patternProperties": {
+                    "^[a-z]{2}$": { "type": "string" }
+                  },
+                  "additionalProperties": false
+                },
+                "type": {
+                  "type": "string",
+                  "enum": ["addition", "removal", "substitution", "option"]
+                },
+                "price_adjustment": { "type": "number" },
+                "ingredient_id": { "type": "string" },
+                "substitute": {
+                  "type": "object",
+                  "required": ["name"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "allergens": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "crustaceans",
+                          "eggs",
+                          "fish",
+                          "peanuts",
+                          "soybeans",
+                          "milk",
+                          "nuts",
+                          "celery",
+                          "mustard",
+                          "sesame",
+                          "lupin",
+                          "sulphites",
+                          "molluscs",
+                          "gluten"
+                        ]
+                      },
+                      "uniqueItems": true
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "name"],
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": {
+                        "type": "object",
+                        "minProperties": 1,
+                        "patternProperties": {
+                          "^[a-z]{2}$": { "type": "string" }
+                        },
+                        "additionalProperties": false
+                      },
+                      "price_adjustment": { "type": "number" },
+                      "default": { "type": "boolean", "default": false },
+                      "allergens": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "crustaceans",
+                            "eggs",
+                            "fish",
+                            "peanuts",
+                            "soybeans",
+                            "milk",
+                            "nuts",
+                            "celery",
+                            "mustard",
+                            "sesame",
+                            "lupin",
+                            "sulphites",
+                            "molluscs",
+                            "gluten"
+                          ]
+                        },
+                        "uniqueItems": true
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "max_selections": { "type": "integer", "minimum": 1 },
+                "is_required": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Whether selection from this modification is mandatory"
+                }
+              },
+              "allOf": [
+                {
+                  "if": { "properties": { "type": { "const": "option" } } },
+                  "then": { "required": ["options"] }
+                },
+                {
+                  "if": { "properties": { "type": { "const": "removal" } } },
+                  "then": { "required": ["ingredient_id"] }
+                },
+                {
+                  "if": {
+                    "properties": { "type": { "const": "substitution" } }
+                  },
+                  "then": { "required": ["ingredient_id", "substitute"] }
+                }
+              ],
+              "additionalProperties": false
+            }
+          },
+
+          "custom_requests_allowed": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether customers can enter free-text requests for this dish"
+          },
+
+          "spice_level": {
+            "type": "string",
+            "enum": ["mild", "medium", "hot", "extra hot"],
+            "description": "Default spiciness level of the dish"
+          },
+
+          "availability": {
+            "type": "object",
+            "properties": {
+              "days": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+                }
+              },
+              "time_range": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+                  },
+                  "end": {
+                    "type": "string",
+                    "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+                  }
+                },
+                "required": ["start", "end"]
+              }
+            },
+            "additionalProperties": false
+          },
+
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to an image of the dish"
+          },
+
+          "status": {
+            "type": "string",
+            "enum": ["available", "unavailable", "seasonal", "sold_out"],
+            "default": "available",
+            "description": "Current availability status of the dish"
+          },
+
+          "combo_items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "IDs of other dishes included in this combo"
             }
           }
         },
