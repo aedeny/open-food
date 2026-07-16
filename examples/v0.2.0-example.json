@@ -1,11 +1,54 @@
 {
+  "openfood_version": "0.2.0",
+  "generated_at": "2026-07-16T12:00:00Z",
   "restaurant": {
     "id": "r123",
-    "name": "Green Garden",
-    "location": "Tel Aviv, Israel",
+    "name": {
+      "en": "Green Garden",
+      "he": "גן ירוק"
+    },
+    "description": {
+      "en": "Plant-forward Mediterranean kitchen in the heart of Tel Aviv",
+      "he": "מטבח ים תיכוני מבוסס צמחים בלב תל אביב"
+    },
+    "location": {
+      "address": "Rothschild Blvd 12",
+      "city": "Tel Aviv",
+      "country": "IL",
+      "geo": { "lat": 32.0632, "lng": 34.7719 }
+    },
     "currency": "ILS",
-    "language": "en"
+    "default_language": "en",
+    "languages": ["en", "he", "fr"],
+    "cuisines": ["mediterranean", "vegetarian"],
+    "contact": {
+      "phone": "+972-3-1234567",
+      "website": "https://greengarden.example"
+    },
+    "hours": {
+      "sun": [{ "start": "09:00", "end": "23:00" }],
+      "mon": [{ "start": "09:00", "end": "23:00" }],
+      "tue": [{ "start": "09:00", "end": "23:00" }],
+      "wed": [{ "start": "09:00", "end": "23:00" }],
+      "thu": [{ "start": "09:00", "end": "23:00" }],
+      "fri": [
+        { "start": "09:00", "end": "15:00" }
+      ]
+    },
+    "certifications": ["kosher"]
   },
+  "categories": [
+    {
+      "id": "c1",
+      "name": { "en": "Starters", "he": "ראשונות" },
+      "sort_order": 0
+    },
+    {
+      "id": "c2",
+      "name": { "en": "Main Dishes", "he": "עיקריות" },
+      "sort_order": 1
+    }
+  ],
   "menu": [
     {
       "id": "d1001",
@@ -17,7 +60,8 @@
         "en": "Quinoa, chickpeas, roasted veggies, tahini dressing",
         "he": "קינואה, חומוס, ירקות צלויים, רוטב טחינה"
       },
-      "category": "Main Dishes",
+      "category_id": "c2",
+      "sort_order": 0,
       "price": 48.0,
       "nutritional_info": {
         "calories": 520,
@@ -46,7 +90,8 @@
       "description": {
         "en": "Fresh tomatoes, cucumbers, olives, feta cheese, olive oil dressing"
       },
-      "category": "Starters",
+      "category_id": "c1",
+      "sort_order": 0,
       "price": 32.0,
       "nutritional_info": {
         "calories": 320,
@@ -76,7 +121,8 @@
         "en": "Tofu with seasonal vegetables in teriyaki sauce",
         "fr": "Tofu avec légumes de saison dans une sauce teriyaki"
       },
-      "category": "Main Dishes",
+      "category_id": "c2",
+      "sort_order": 1,
       "price": 42.0,
       "nutritional_info": {
         "calories": 380,
@@ -93,6 +139,27 @@
         { "name": "bell peppers", "amount_grams": 80 },
         { "name": "carrots", "amount_grams": 70 },
         { "name": "teriyaki sauce", "amount_grams": 40 }
+      ],
+      "modifications": [
+        {
+          "id": "m1",
+          "name": "Rice choice",
+          "type": "option",
+          "is_required": true,
+          "max_selections": 1,
+          "options": [
+            {
+              "id": "o1",
+              "name": { "en": "White rice", "fr": "Riz blanc" },
+              "default": true
+            },
+            {
+              "id": "o2",
+              "name": { "en": "Brown rice", "fr": "Riz complet" },
+              "price_adjustment": 3
+            }
+          ]
+        }
       ]
     },
     {
@@ -104,7 +171,8 @@
       "description": {
         "en": "Wild-caught salmon with lemon-herb sauce, served with roasted potatoes"
       },
-      "category": "Main Dishes",
+      "category_id": "c2",
+      "sort_order": 2,
       "price": 68.0,
       "nutritional_info": {
         "calories": 450,
