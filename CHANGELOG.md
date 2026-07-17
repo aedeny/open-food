@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.3.0] - 2026-07-18
+
+### Changed
+
+- **Breaking:** `menu[].modifications` replaced by `menu[].option_groups` — one
+  generic construct for every kind of configurable dish. Each group has a
+  localized `name`, selection rules (`min_selections`, `max_selections`,
+  `included_selections` for "first N included in the price"), optional
+  `portions` (`divisions` of 2/3/4/6/8 with `proportional` or `full` pricing —
+  pizza halves and quarters), and `options` with localized names,
+  `price_adjustment`, `default`, `max_quantity` (e.g. double cheese),
+  `allergens`, and diet `tags`. This expresses the old `addition` / `removal` /
+  `substitution` / `option` modification types and much more (priced toppings,
+  half-and-half pizzas, "pick 3 of 8 sauces", size variants) without
+  special-cased shapes, and drops the conditional (`if`/`then`) constraints.
+
+### Migration
+
+- `type: "option"` modification → a group with the same options
+  (`is_required` → `min_selections: 1`).
+- `type: "addition"` → an option (with its `price_adjustment`) in an
+  "Extras" group.
+- `type: "removal"` → a zero-priced option in a "Remove" group.
+- `type: "substitution"` → a `min_selections: 1, max_selections: 1` group with
+  the original as the `default` option and the substitute as the alternative.
+
 ## [0.2.0] - 2026-07-16
 
 ### Added
