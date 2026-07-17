@@ -10,6 +10,7 @@
 - `restaurant.default_language` and `restaurant.languages` — explicit translation fallback and offered languages
 - `restaurant.cuisines` — cuisine styles for discovery and filtering
 - `restaurant.contact` (`phone`, `email`, `website`)
+- `restaurant.links` — links to external platforms (e.g. `google_maps`, `tripadvisor`)
 - `restaurant.hours` — opening hours per weekday with support for split shifts
 - `restaurant.image_url` — cover image
 - Top-level `categories` array with localized names and `sort_order`; dishes reference them via `category_id`

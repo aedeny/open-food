@@ -25,6 +25,9 @@
       "phone": "+972-3-1234567",
       "website": "https://greengarden.example"
     },
+    "links": {
+      "google_maps": "https://www.google.com/maps/place/?q=place_id:ChIJdWEbeCZLHRURW-a1hL7Xyx0"
+    },
     "hours": {
       "sun": [{ "start": "09:00", "end": "23:00" }],
       "mon": [{ "start": "09:00", "end": "23:00" }],

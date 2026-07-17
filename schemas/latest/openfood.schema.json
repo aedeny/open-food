@@ -131,6 +131,14 @@
           },
           "additionalProperties": false
         },
+        "links": {
+          "type": "object",
+          "description": "Links to the restaurant's presence on external platforms (e.g. google_maps, tripadvisor, wolt)",
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*$": { "type": "string", "format": "uri" }
+          },
+          "additionalProperties": false
+        },
         "hours": {
           "type": "object",
           "description": "Opening hours per weekday; multiple ranges allow split shifts",
