@@ -155,6 +155,11 @@
           "format": "uri",
           "description": "URL to a cover image of the restaurant"
         },
+        "logo_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the restaurant's logo"
+        },
         "certifications": {
           "type": "array",
           "items": {

@@ -12,7 +12,7 @@
 - `restaurant.contact` (`phone`, `email`, `website`)
 - `restaurant.links` — links to external platforms (e.g. `google_maps`, `tripadvisor`)
 - `restaurant.hours` — opening hours per weekday with support for split shifts
-- `restaurant.image_url` — cover image
+- `restaurant.image_url` — cover image; `restaurant.logo_url` — logo
 - Top-level `categories` array with localized names and `sort_order`; dishes reference them via `category_id`
 - `menu[].sort_order` — display position within a category
 - `menu[].contains_alcohol` boolean
