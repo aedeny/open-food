@@ -1,0 +1,396 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OpenFood Menu Schema",
+  "version": "0.2.0",
+  "description": "A standardized schema for digital restaurant menus",
+  "type": "object",
+  "required": ["openfood_version", "restaurant", "menu"],
+  "definitions": {
+    "localizedText": {
+      "type": "object",
+      "description": "Text localized by two-letter ISO 639-1 language code, optionally with an ISO 3166-1 region subtag (e.g. 'en', 'pt-BR')",
+      "minProperties": 1,
+      "patternProperties": {
+        "^[a-z]{2}(-[A-Z]{2})?$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "languageCode": {
+      "type": "string",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+    },
+    "timeOfDay": {
+      "type": "string",
+      "pattern": "^[0-2][0-9]:[0-5][0-9]$"
+    },
+    "timeRange": {
+      "type": "object",
+      "required": ["start", "end"],
+      "properties": {
+        "start": { "$ref": "#/definitions/timeOfDay" },
+        "end": { "$ref": "#/definitions/timeOfDay" }
+      },
+      "additionalProperties": false
+    },
+    "allergens": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "crustaceans",
+          "eggs",
+          "fish",
+          "peanuts",
+          "soybeans",
+          "milk",
+          "nuts",
+          "celery",
+          "mustard",
+          "sesame",
+          "lupin",
+          "sulphites",
+          "molluscs",
+          "gluten"
+        ]
+      },
+      "uniqueItems": true
+    }
+  },
+  "properties": {
+    "openfood_version": {
+      "type": "string",
+      "description": "Version of the OpenFood schema this document conforms to",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO timestamp when this document was generated"
+    },
+    "restaurant": {
+      "type": "object",
+      "required": ["id", "name", "location", "currency", "default_language"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "$ref": "#/definitions/localizedText" },
+        "description": { "$ref": "#/definitions/localizedText" },
+        "location": {
+          "type": "object",
+          "required": ["address"],
+          "properties": {
+            "address": { "type": "string" },
+            "city": { "type": "string" },
+            "country": {
+              "type": "string",
+              "pattern": "^[A-Z]{2}$",
+              "description": "ISO 3166-1 alpha-2 country code"
+            },
+            "postal_code": { "type": "string" },
+            "geo": {
+              "type": "object",
+              "required": ["lat", "lng"],
+              "properties": {
+                "lat": { "type": "number", "minimum": -90, "maximum": 90 },
+                "lng": { "type": "number", "minimum": -180, "maximum": 180 }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code applying to all prices in this document"
+        },
+        "default_language": {
+          "$ref": "#/definitions/languageCode",
+          "description": "Language used as fallback when a translation is missing"
+        },
+        "languages": {
+          "type": "array",
+          "description": "Languages this menu provides translations for",
+          "items": { "$ref": "#/definitions/languageCode" },
+          "uniqueItems": true
+        },
+        "cuisines": {
+          "type": "array",
+          "description": "Cuisine styles, lowercase (e.g. 'italian', 'japanese', 'middle-eastern')",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z-]*$"
+          },
+          "uniqueItems": true
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "phone": { "type": "string" },
+            "email": { "type": "string", "format": "email" },
+            "website": { "type": "string", "format": "uri" }
+          },
+          "additionalProperties": false
+        },
+        "links": {
+          "type": "object",
+          "description": "Links to the restaurant's presence on external platforms (e.g. google_maps, tripadvisor, wolt)",
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*$": { "type": "string", "format": "uri" }
+          },
+          "additionalProperties": false
+        },
+        "hours": {
+          "type": "object",
+          "description": "Opening hours per weekday; multiple ranges allow split shifts",
+          "propertyNames": {
+            "enum": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+          },
+          "additionalProperties": {
+            "type": "array",
+            "items": { "$ref": "#/definitions/timeRange" }
+          }
+        },
+        "image_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to a cover image of the restaurant"
+        },
+        "logo_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the restaurant's logo"
+        },
+        "certifications": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["kosher", "halal"]
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "categories": {
+      "type": "array",
+      "description": "Menu categories; dishes reference these by category_id",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "$ref": "#/definitions/localizedText" },
+          "description": { "$ref": "#/definitions/localizedText" },
+          "sort_order": { "type": "integer", "minimum": 0 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "menu": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "price"],
+        "properties": {
+          "id": { "type": "string" },
+
+          "external_id": {
+            "type": "string",
+            "description": "External reference for POS, inventory, or ERP systems"
+          },
+
+          "name": { "$ref": "#/definitions/localizedText" },
+
+          "description": { "$ref": "#/definitions/localizedText" },
+
+          "category_id": {
+            "type": "string",
+            "description": "ID of the category this dish belongs to"
+          },
+
+          "sort_order": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Display position within the category"
+          },
+
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+
+          "nutritional_info": {
+            "type": "object",
+            "properties": {
+              "calories": { "type": "number", "minimum": 0 },
+              "protein": { "type": "number", "minimum": 0 },
+              "fat": { "type": "number", "minimum": 0 },
+              "carbohydrates": { "type": "number", "minimum": 0 },
+              "sugar": { "type": "number", "minimum": 0 }
+            },
+            "additionalProperties": false
+          },
+
+          "allergens": { "$ref": "#/definitions/allergens" },
+
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "vegan",
+                "vegetarian",
+                "gluten-free",
+                "nut-free",
+                "dairy-free",
+                "organic"
+              ]
+            },
+            "uniqueItems": true
+          },
+
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "amount_grams"],
+              "properties": {
+                "name": { "type": "string" },
+                "amount_grams": { "type": "number", "minimum": 0 },
+                "raw_or_cooked": {
+                  "type": "string",
+                  "enum": ["raw", "cooked"],
+                  "default": "cooked"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+
+          "modifications": {
+            "type": "array",
+            "description": "Available modifications that can be made to this dish",
+            "items": {
+              "type": "object",
+              "required": ["id", "name", "type"],
+              "properties": {
+                "id": { "type": "string" },
+                "name": { "type": "string" },
+                "description": { "$ref": "#/definitions/localizedText" },
+                "type": {
+                  "type": "string",
+                  "enum": ["addition", "removal", "substitution", "option"]
+                },
+                "price_adjustment": { "type": "number" },
+                "ingredient_id": { "type": "string" },
+                "substitute": {
+                  "type": "object",
+                  "required": ["name"],
+                  "properties": {
+                    "name": { "type": "string" },
+                    "allergens": { "$ref": "#/definitions/allergens" }
+                  },
+                  "additionalProperties": false
+                },
+                "options": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": ["id", "name"],
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "$ref": "#/definitions/localizedText" },
+                      "price_adjustment": { "type": "number" },
+                      "default": { "type": "boolean", "default": false },
+                      "allergens": { "$ref": "#/definitions/allergens" }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "max_selections": { "type": "integer", "minimum": 1 },
+                "is_required": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Whether selection from this modification is mandatory"
+                }
+              },
+              "allOf": [
+                {
+                  "if": { "properties": { "type": { "const": "option" } } },
+                  "then": { "required": ["options"] }
+                },
+                {
+                  "if": { "properties": { "type": { "const": "removal" } } },
+                  "then": { "required": ["ingredient_id"] }
+                },
+                {
+                  "if": {
+                    "properties": { "type": { "const": "substitution" } }
+                  },
+                  "then": { "required": ["ingredient_id", "substitute"] }
+                }
+              ],
+              "additionalProperties": false
+            }
+          },
+
+          "contains_alcohol": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether the dish contains alcohol"
+          },
+
+          "custom_requests_allowed": {
+            "type": "boolean",
+            "default": false,
+            "description": "Whether customers can enter free-text requests for this dish"
+          },
+
+          "spice_level": {
+            "type": "string",
+            "enum": ["mild", "medium", "hot", "extra hot"],
+            "description": "Default spiciness level of the dish"
+          },
+
+          "availability": {
+            "type": "object",
+            "properties": {
+              "days": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+                }
+              },
+              "time_range": { "$ref": "#/definitions/timeRange" }
+            },
+            "additionalProperties": false
+          },
+
+          "image_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to an image of the dish"
+          },
+
+          "status": {
+            "type": "string",
+            "enum": ["available", "unavailable", "seasonal", "sold_out"],
+            "default": "available",
+            "description": "Current availability status of the dish"
+          },
+
+          "combo_items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "IDs of other dishes included in this combo"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

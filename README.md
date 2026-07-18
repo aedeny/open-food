@@ -39,13 +39,15 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
 
 - **JSON**
 - UTF-8 encoded
-- Follows the [OpenFood Schema v1.0](./openfood.schema.json)
+- Follows the [latest OpenFood Schema](./schemas/latest/openfood.schema.json) (versioned copies live in [`schemas/`](./schemas))
 
 ### Top-Level Structure
 
 ```json
 {
+  "openfood_version": "0.2.0",
   "restaurant": { ... },
+  "categories": [ ... ],
   "menu": [ ... ]
 }
 ```
@@ -54,13 +56,23 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
 
 ```json
 {
+  "openfood_version": "0.2.0",
   "restaurant": {
     "id": "r123",
-    "name": "Green Garden",
-    "location": "Tel Aviv, Israel",
+    "name": { "en": "Green Garden", "he": "גן ירוק" },
+    "location": {
+      "address": "Rothschild Blvd 12",
+      "city": "Tel Aviv",
+      "country": "IL",
+      "geo": { "lat": 32.0632, "lng": 34.7719 }
+    },
     "currency": "ILS",
-    "language": "en"
+    "default_language": "en",
+    "languages": ["en", "he"]
   },
+  "categories": [
+    { "id": "c2", "name": { "en": "Main Dishes", "he": "עיקריות" }, "sort_order": 1 }
+  ],
   "menu": [
     {
       "id": "d1001",
@@ -68,6 +80,7 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
       "description": {
         "en": "Quinoa, chickpeas, roasted veggies, tahini dressing"
       },
+      "category_id": "c2",
       "price": 48.0,
       "nutritional_info": {
         "calories": 520,
@@ -88,17 +101,22 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
 }
 ```
 
+See the full example at [`examples/v0.2.0-example.json`](./examples/v0.2.0-example.json).
+
 ---
 
 ## ✅ Supported Tags
 
+Dish-level `tags`:
+
 - `vegan`
 - `vegetarian`
 - `gluten-free`
-- `halal`
-- `kosher`
-- `dairy-free`
 - `nut-free`
+- `dairy-free`
+- `organic`
+
+Restaurant-level `certifications`: `kosher`, `halal`.
 
 > ⚠️ Subjective tags (e.g. `low-sugar`) are **excluded**. Use `nutritional_info` instead and let apps decide how to interpret it.
 
@@ -108,9 +126,17 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
 
 The latest schema is available at:
 
-[`openfood.schema.json`](./openfood.schema.json)
+[`schemas/latest/openfood.schema.json`](./schemas/latest/openfood.schema.json)
 
 You can validate OpenFood menu files using any JSON Schema validator.
+
+### Using as an npm dependency
+
+```json
+"dependencies": {
+  "openfood-schema": "github:aedeny/open-food#v0.2.0"
+}
+```
 
 ---
 
