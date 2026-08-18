@@ -1,5 +1,38 @@
 # Changelog
 
+## [0.4.0] - 2026-08-18
+
+### Added
+
+- `menu[].advisories` and `option_groups[].options[].advisories` — preparation
+  facts a diner may need to avoid: `alcohol`, `raw-fish`, `raw-shellfish`,
+  `raw-meat`, `raw-egg`, `unpasteurized-dairy`, `cured-meat`,
+  `high-mercury-fish`, `liver`, `sprouts`, `honey`. Each is something a kitchen
+  can answer from what it buys and how it cooks. None of them is health advice:
+  which matter to whom differs by country and by person, so groupings such as
+  "avoid these during pregnancy" belong to the application and are deliberately
+  not expressible here. `honey` is an infant advisory (botulism under 12
+  months), not a pregnancy one.
+- An **absent** `advisories` field and an **empty** one mean different things: no
+  field means nobody checked, an empty array means the kitchen checked and none
+  apply. Consumers must not read absence as safety.
+- Options carry advisories as well as dishes, because a diner can order the
+  topping — the same reason options already carry `allergens`.
+
+### Deprecated
+
+- `menu[].contains_alcohol` — use `advisories: ["alcohol"]`. Still accepted, and
+  not scheduled for removal: dish objects are `additionalProperties: false`, so
+  dropping the property would invalidate every 0.3.0 document that carries it,
+  including documents held by consumers this repo does not control.
+
+### Migration
+
+- `contains_alcohol: true` → add `"alcohol"` to `advisories`.
+- `contains_alcohol: false` → drop the field. It only ever meant "no alcohol";
+  it never meant the dish had been checked against anything else, so it must not
+  become an empty `advisories` array.
+
 ## [0.3.0] - 2026-07-18
 
 ### Changed
