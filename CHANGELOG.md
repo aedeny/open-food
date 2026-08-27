@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.4.1] - 2026-08-27
+
+### Changed
+
+- `menu[].ingredients[].amount_grams` is no longer required. Only `name` is.
+
+  The field was unusable as written. A printed menu names what is in a dish —
+  "tomato, mozzarella, basil" — and never weighs it, so requiring a gram figure
+  meant the only honest way to fill `ingredients` was to have weighed the dish
+  yourself. In practice that meant nobody filled it at all: consumers extracting
+  a menu from a photograph had to drop the ingredient list into `description` as
+  prose, and a kitchen typing its own dishes in had to invent numbers or leave
+  the field empty. A schema that can only be satisfied by data nobody has is a
+  schema that gets skipped.
+
+  Backwards compatible in the direction that matters: every 0.4.0 document is
+  still valid 0.4.1, since a document that supplies `amount_grams` continues to
+  validate. A 0.4.1 document that omits it will **not** validate against 0.4.0,
+  so a consumer pinned to the older schema should move up before accepting one.
 ## [0.4.0] - 2026-08-18
 
 ### Added
