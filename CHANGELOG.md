@@ -1,5 +1,37 @@
 # Changelog
 
+## [0.5.0] - 2026-08-28
+
+### Added
+
+- `menu[].option_groups[].sections[]` and `menu[].option_groups[].options[].section_id`
+  — optional headings that divide one group's options into labelled lists,
+  without dividing its selection rule.
+
+  A dish sold with "two sides of your choice" whose menu then prints *Hot
+  sides* and *Cold sides* had no honest representation. Two groups was the
+  obvious reading and the wrong one: `max_selections` is per group, so two
+  groups of 2 let a diner take four. The only correct encoding was a single
+  group of every side with both headings thrown away, which is what consumers
+  were told to do — and it loses the one thing the printing was there to say.
+
+  A section is a label, not a container. `min_selections`, `max_selections` and
+  `included_selections` stay the group's, so the allowance is shared across
+  every section by construction: two sides may be two hot, two cold, or one of
+  each, and there is no second place a count could live. Options stay in one
+  flat `options` array and name their heading with `section_id`, so consumers
+  that ignore sections keep working unchanged and read exactly the group they
+  read before.
+
+  An option with no `section_id`, or one naming a section the group does not
+  declare, is listed before the first heading rather than dropped — a label is
+  never a reason to lose a choice a diner can order.
+
+  Fully backwards compatible in both directions: every 0.4.1 document is valid
+  0.5.0, and a 0.5.0 document that uses neither field is valid 0.4.1. A
+  consumer pinned to 0.4.1 will reject a document that uses them, since both
+  objects are `additionalProperties: false`.
+
 ## [0.4.1] - 2026-08-27
 
 ### Changed
