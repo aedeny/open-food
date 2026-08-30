@@ -45,10 +45,11 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
 
 ```json
 {
-  "openfood_version": "0.6.0",
+  "openfood_version": "0.7.0",
   "restaurant": { ... },
   "services": [ ... ],
   "categories": [ ... ],
+  "option_groups": [ ... ],
   "menu": [ ... ]
 }
 ```
@@ -85,15 +86,29 @@ Every dish stays in the one flat `menu` array, so a consumer that ignores
 from the whole menu — allergens, diets, search, the price range — keeps its
 answer. `hours` is optional: a bar or children's menu is a menu, not a sitting.
 
-A dish that costs less at lunch is **two entries with two ids**, not one entry
-with two prices — an order line resolves by dish id. See
-[`examples/v0.6.0-example.json`](./examples/v0.6.0-example.json).
+A dish that costs less at lunch is **one entry with two `variants`**, each
+naming the service it is priced for — an order line resolves by dish id and
+variant id. See
+[`examples/v0.7.0-example.json`](./examples/v0.7.0-example.json).
+
+### Shared options and variants
+
+Option groups are declared once in a top-level `option_groups` and named by the
+dishes that offer them in `option_group_ids`. A sides list printed under twenty
+mains is one entry named twenty times, rather than twenty copies that can drift
+apart. An id no group declares is ignored, and the order is presentation order.
+
+`variants` are the several priced forms a dish is sold in — a size, a portion,
+or the same plate at a different price on a different menu. Each carries the
+**absolute** price the menu printed, which is what separates it from an
+option's `price_adjustment`. A dish carries either `price` or a non-empty
+`variants`, never both and never neither.
 
 ### Example
 
 ```json
 {
-  "openfood_version": "0.2.0",
+  "openfood_version": "0.7.0",
   "restaurant": {
     "id": "r123",
     "name": { "en": "Green Garden", "he": "גן ירוק" },
@@ -138,7 +153,7 @@ with two prices — an order line resolves by dish id. See
 }
 ```
 
-See the full example at [`examples/v0.2.0-example.json`](./examples/v0.2.0-example.json).
+See the full example at [`examples/v0.7.0-example.json`](./examples/v0.7.0-example.json).
 
 ---
 

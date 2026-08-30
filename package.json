@@ -1,6 +1,6 @@
 {
   "name": "openfood-schema",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "OpenFood — an open, structured, multilingual format for restaurant menus (JSON Schema)",
   "license": "MIT",
   "repository": {

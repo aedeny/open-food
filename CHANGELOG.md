@@ -1,5 +1,96 @@
 # Changelog
 
+## [0.7.0] - 2026-08-30
+
+### Changed (breaking)
+
+- `menu[].option_groups` is gone. Option groups are now declared **once** in a
+  top-level `option_groups[]`, and a dish names the ones it offers in
+  `option_group_ids[]`.
+
+  A group was previously a property of the dish that offered it, which meant a
+  sides list printed under twenty mains was stored twenty times. That is not a
+  size problem first — it is a truth problem. Twenty copies of one printed list
+  are twenty things that can disagree, and they do: an extraction writes them
+  from twenty separate readings of the same page, an editor changes the price of
+  a topping on the dish in front of them, and the menu now says two things about
+  one line of print. Nothing in the document could even express that they were
+  meant to be the same list.
+
+  The pool says it once. A dish names a group the way it already names its
+  category and its services — by id, into a flat collection at the root — and
+  `option_group_ids` is read with the same forgiveness every other id list in
+  this schema gets: an id no group declares is **ignored** rather than treated as
+  an error. Its order is presentation order, so unlike `service_ids` it is never
+  sorted. `uniqueItems` is set, because a dish naming one group twice would
+  charge its options twice and there is no reading of that a diner meant.
+
+  Group ids are now document-wide rather than dish-local. Option ids stay unique
+  within the groups one dish offers, which is what an order line has always
+  relied on.
+
+- `menu[].price` is now optional, and a dish may instead carry `variants[]` —
+  the several priced forms it is sold in. A dish has `price` or a non-empty
+  `variants`, never both and never neither.
+
+  0.6.0 said this, and it was the weakest sentence in the schema: *"A dish sold
+  at two prices in two services is two entries with two ids, not one entry with
+  two prices — an order line resolves by dish id."* The reasoning was sound and
+  the conclusion did not follow. An order line could not resolve a price that
+  depended on which heading you read it under, so the price had to hang off
+  something an order line names — but the fix for that is to let an order line
+  name one more thing, not to make the restaurant say everything else about the
+  dish twice. This repo's own 0.6.0 example paid for it: the lunch and dinner
+  Buddha Bowl repeat their description, nutrition, allergens, tags, a six-item
+  ingredient list and an entire option group across a hundred lines, to say that
+  one of them costs ten shekels less. It also shipped with a duplicate `d1003`,
+  which is exactly the failure a rule requiring more ids invites.
+
+  A variant is a **priced form of the dish** — a size, a portion, or the same
+  plate at a different price on a different menu — and it carries an **absolute**
+  price. That is the whole difference between a variant and an option, whose
+  `price_adjustment` is a difference. It is also why sizes belong here and not,
+  as 0.6.0 had them, in a single-select group of computed deltas: writing "Large"
+  as `+13` requires whoever transcribes the menu to subtract, and a wrong
+  subtraction is a wrong price that nothing downstream can detect. A variant
+  carries the number the menu printed.
+
+  A variant may name `service_ids` of its own. Those decide which prices are
+  shown, never whether the **dish** is printed — that stays `menu[].service_ids`
+  and its category's answer, unchanged. And a service in which no variant
+  survives shows all of them, for the reason a dangling id is ignored: a heading
+  is never a reason to leave a diner unable to order.
+
+  An order line now resolves by dish id **and** variant id.
+
+- `menu[].status` and a variant's `status` share a new `dishStatus` definition;
+  `option_groups[].options[].tags` gains the `uniqueItems` its dish-level twin
+  has always had.
+
+### Migration
+
+Mechanical in both halves, and 0.7.0 documents are strictly smaller.
+
+1. For every dish carrying `option_groups`, move each group into the top-level
+   `option_groups[]` and replace it with its id in `option_group_ids`. Where two
+   dishes carried groups with the same id, keep one if they are identical and
+   namespace the ids if they are not — a dish-local id is not a claim that two
+   dishes meant the same list.
+2. Where a dish encoded sizes as a single-select group of `price_adjustment`
+   deltas, rewrite them as `variants` by adding each delta to the dish price;
+   drop the group. Optional — the old encoding remains valid.
+3. Where two dishes differed only in price and `service_ids`, keep one and give
+   it a variant per price, each naming that price's services. Set the surviving
+   dish's `service_ids` to the union.
+
+Not backwards compatible in either direction. A 0.6.0 consumer rejects a 0.7.0
+document that pools its groups, because `menu.items` is `additionalProperties:
+false` and `option_group_ids` is not a field it knows; a 0.7.0 consumer rejects a
+0.6.0 document that carries inline `option_groups` for the same reason. Both are
+deliberate: a dish whose options silently vanish because the reader skipped a
+field it did not recognise is worse than one that fails to load.
+
+
 ## [0.6.0] - 2026-08-30
 
 ### Added
