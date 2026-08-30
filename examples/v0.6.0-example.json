@@ -1,0 +1,679 @@
+{
+  "openfood_version": "0.6.0",
+  "generated_at": "2026-07-16T12:00:00Z",
+  "restaurant": {
+    "id": "r123",
+    "name": {
+      "en": "Green Garden",
+      "he": "גן ירוק"
+    },
+    "description": {
+      "en": "Plant-forward Mediterranean kitchen in the heart of Tel Aviv",
+      "he": "מטבח ים תיכוני מבוסס צמחים בלב תל אביב"
+    },
+    "location": {
+      "address": "Rothschild Blvd 12",
+      "city": "Tel Aviv",
+      "country": "IL",
+      "geo": {
+        "lat": 32.0632,
+        "lng": 34.7719
+      }
+    },
+    "currency": "ILS",
+    "default_language": "en",
+    "languages": [
+      "en",
+      "he",
+      "fr"
+    ],
+    "cuisines": [
+      "mediterranean",
+      "vegetarian"
+    ],
+    "contact": {
+      "phone": "+972-3-1234567",
+      "website": "https://greengarden.example"
+    },
+    "links": {
+      "google_maps": "https://www.google.com/maps/place/?q=place_id:ChIJdWEbeCZLHRURW-a1hL7Xyx0"
+    },
+    "hours": {
+      "sun": [
+        {
+          "start": "09:00",
+          "end": "23:00"
+        }
+      ],
+      "mon": [
+        {
+          "start": "09:00",
+          "end": "23:00"
+        }
+      ],
+      "tue": [
+        {
+          "start": "09:00",
+          "end": "23:00"
+        }
+      ],
+      "wed": [
+        {
+          "start": "09:00",
+          "end": "23:00"
+        }
+      ],
+      "thu": [
+        {
+          "start": "09:00",
+          "end": "23:00"
+        }
+      ],
+      "fri": [
+        {
+          "start": "09:00",
+          "end": "15:00"
+        }
+      ]
+    },
+    "certifications": [
+      "kosher"
+    ]
+  },
+  "services": [
+    {
+      "id": "lunch",
+      "name": {
+        "en": "Lunch",
+        "he": "צהריים"
+      },
+      "description": {
+        "en": "Served on weekdays until four"
+      },
+      "sort_order": 0,
+      "hours": {
+        "sun": [
+          {
+            "start": "12:00",
+            "end": "16:00"
+          }
+        ],
+        "mon": [
+          {
+            "start": "12:00",
+            "end": "16:00"
+          }
+        ],
+        "tue": [
+          {
+            "start": "12:00",
+            "end": "16:00"
+          }
+        ],
+        "wed": [
+          {
+            "start": "12:00",
+            "end": "16:00"
+          }
+        ],
+        "thu": [
+          {
+            "start": "12:00",
+            "end": "16:00"
+          }
+        ],
+        "fri": [
+          {
+            "start": "12:00",
+            "end": "15:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dinner",
+      "name": {
+        "en": "Dinner",
+        "he": "ערב"
+      },
+      "sort_order": 1,
+      "hours": {
+        "sun": [
+          {
+            "start": "18:00",
+            "end": "23:00"
+          }
+        ],
+        "mon": [
+          {
+            "start": "18:00",
+            "end": "23:00"
+          }
+        ],
+        "tue": [
+          {
+            "start": "18:00",
+            "end": "23:00"
+          }
+        ],
+        "wed": [
+          {
+            "start": "18:00",
+            "end": "23:00"
+          }
+        ],
+        "thu": [
+          {
+            "start": "18:00",
+            "end": "23:00"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bar",
+      "name": {
+        "en": "Bar",
+        "he": "בר"
+      },
+      "sort_order": 2
+    }
+  ],
+  "categories": [
+    {
+      "id": "c1",
+      "name": {
+        "en": "Starters",
+        "he": "ראשונות"
+      },
+      "sort_order": 0
+    },
+    {
+      "id": "c2",
+      "name": {
+        "en": "Main Dishes",
+        "he": "עיקריות"
+      },
+      "sort_order": 1,
+      "service_ids": [
+        "dinner",
+        "lunch"
+      ]
+    }
+  ],
+  "menu": [
+    {
+      "id": "d1001",
+      "name": {
+        "en": "Vegan Buddha Bowl",
+        "he": "קערת בודהה טבעונית"
+      },
+      "description": {
+        "en": "Quinoa, chickpeas, roasted veggies, tahini dressing",
+        "he": "קינואה, חומוס, ירקות צלויים, רוטב טחינה"
+      },
+      "category_id": "c2",
+      "sort_order": 0,
+      "price": 48,
+      "nutritional_info": {
+        "calories": 520,
+        "protein": 18,
+        "fat": 20,
+        "carbohydrates": 60,
+        "sugar": 6
+      },
+      "allergens": [
+        "sesame"
+      ],
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "ingredients": [
+        {
+          "name": "quinoa",
+          "amount_grams": 150
+        },
+        {
+          "name": "chickpeas",
+          "amount_grams": 100
+        },
+        {
+          "name": "roasted sweet potato",
+          "amount_grams": 120
+        },
+        {
+          "name": "roasted bell peppers",
+          "amount_grams": 80
+        },
+        {
+          "name": "fresh spinach",
+          "amount_grams": 50,
+          "raw_or_cooked": "raw"
+        },
+        {
+          "name": "tahini",
+          "amount_grams": 30
+        }
+      ],
+      "option_groups": [
+        {
+          "id": "toppings",
+          "name": {
+            "en": "Extra toppings",
+            "fr": "Garnitures supplémentaires"
+          },
+          "min_selections": 0,
+          "max_selections": 6,
+          "included_selections": 2,
+          "portions": {
+            "divisions": 2,
+            "pricing": "proportional"
+          },
+          "options": [
+            {
+              "id": "t-olives",
+              "name": {
+                "en": "Olives",
+                "fr": "Olives"
+              },
+              "price_adjustment": 4
+            },
+            {
+              "id": "t-mushrooms",
+              "name": {
+                "en": "Mushrooms",
+                "fr": "Champignons"
+              },
+              "price_adjustment": 5
+            },
+            {
+              "id": "t-extra-cheese",
+              "name": {
+                "en": "Extra cheese",
+                "fr": "Fromage supplémentaire"
+              },
+              "price_adjustment": 6,
+              "max_quantity": 2,
+              "allergens": [
+                "milk"
+              ]
+            }
+          ]
+        }
+      ],
+      "advisories": [
+        "alcohol"
+      ],
+      "service_ids": [
+        "dinner"
+      ]
+    },
+    {
+      "id": "d1003",
+      "name": {
+        "en": "Vegan Buddha Bowl (lunch)",
+        "he": "קערת בודהה טבעונית (עסקית)"
+      },
+      "description": {
+        "en": "Quinoa, chickpeas, roasted veggies, tahini dressing",
+        "he": "קינואה, חומוס, ירקות צלויים, רוטב טחינה"
+      },
+      "category_id": "c2",
+      "sort_order": 1,
+      "price": 38,
+      "nutritional_info": {
+        "calories": 520,
+        "protein": 18,
+        "fat": 20,
+        "carbohydrates": 60,
+        "sugar": 6
+      },
+      "allergens": [
+        "sesame"
+      ],
+      "tags": [
+        "vegan",
+        "gluten-free"
+      ],
+      "ingredients": [
+        {
+          "name": "quinoa",
+          "amount_grams": 150
+        },
+        {
+          "name": "chickpeas",
+          "amount_grams": 100
+        },
+        {
+          "name": "roasted sweet potato",
+          "amount_grams": 120
+        },
+        {
+          "name": "roasted bell peppers",
+          "amount_grams": 80
+        },
+        {
+          "name": "fresh spinach",
+          "amount_grams": 50,
+          "raw_or_cooked": "raw"
+        },
+        {
+          "name": "tahini",
+          "amount_grams": 30
+        }
+      ],
+      "option_groups": [
+        {
+          "id": "toppings",
+          "name": {
+            "en": "Extra toppings",
+            "fr": "Garnitures supplémentaires"
+          },
+          "min_selections": 0,
+          "max_selections": 6,
+          "included_selections": 2,
+          "portions": {
+            "divisions": 2,
+            "pricing": "proportional"
+          },
+          "options": [
+            {
+              "id": "t-olives",
+              "name": {
+                "en": "Olives",
+                "fr": "Olives"
+              },
+              "price_adjustment": 4
+            },
+            {
+              "id": "t-mushrooms",
+              "name": {
+                "en": "Mushrooms",
+                "fr": "Champignons"
+              },
+              "price_adjustment": 5
+            },
+            {
+              "id": "t-extra-cheese",
+              "name": {
+                "en": "Extra cheese",
+                "fr": "Fromage supplémentaire"
+              },
+              "price_adjustment": 6,
+              "max_quantity": 2,
+              "allergens": [
+                "milk"
+              ]
+            }
+          ]
+        }
+      ],
+      "advisories": [
+        "alcohol"
+      ],
+      "service_ids": [
+        "lunch"
+      ]
+    },
+    {
+      "id": "d1002",
+      "name": {
+        "en": "Mediterranean Salad",
+        "he": "סלט ים תיכוני"
+      },
+      "description": {
+        "en": "Fresh tomatoes, cucumbers, olives, feta cheese, olive oil dressing"
+      },
+      "category_id": "c1",
+      "sort_order": 0,
+      "price": 32,
+      "nutritional_info": {
+        "calories": 320,
+        "protein": 10,
+        "fat": 24,
+        "carbohydrates": 15,
+        "sugar": 8
+      },
+      "allergens": [
+        "milk"
+      ],
+      "tags": [
+        "vegetarian",
+        "gluten-free"
+      ],
+      "ingredients": [
+        {
+          "name": "tomatoes",
+          "amount_grams": 120,
+          "raw_or_cooked": "raw"
+        },
+        {
+          "name": "cucumbers",
+          "amount_grams": 100,
+          "raw_or_cooked": "raw"
+        },
+        {
+          "name": "olives",
+          "amount_grams": 40
+        },
+        {
+          "name": "feta cheese",
+          "amount_grams": 60
+        },
+        {
+          "name": "olive oil",
+          "amount_grams": 15
+        },
+        {
+          "name": "lemon juice",
+          "amount_grams": 10,
+          "raw_or_cooked": "raw"
+        }
+      ],
+      "advisories": []
+    },
+    {
+      "id": "d1003",
+      "name": {
+        "en": "Tofu Stir-Fry",
+        "fr": "Sauté de Tofu"
+      },
+      "description": {
+        "en": "Tofu with seasonal vegetables in teriyaki sauce",
+        "fr": "Tofu avec légumes de saison dans une sauce teriyaki"
+      },
+      "category_id": "c2",
+      "sort_order": 1,
+      "price": 42,
+      "nutritional_info": {
+        "calories": 380,
+        "protein": 22,
+        "fat": 16,
+        "carbohydrates": 35,
+        "sugar": 12
+      },
+      "allergens": [
+        "soybeans",
+        "gluten"
+      ],
+      "tags": [
+        "vegan"
+      ],
+      "ingredients": [
+        {
+          "name": "tofu",
+          "amount_grams": 200
+        },
+        {
+          "name": "broccoli",
+          "amount_grams": 100
+        },
+        {
+          "name": "bell peppers",
+          "amount_grams": 80
+        },
+        {
+          "name": "carrots",
+          "amount_grams": 70
+        },
+        {
+          "name": "teriyaki sauce",
+          "amount_grams": 40
+        }
+      ],
+      "option_groups": [
+        {
+          "id": "m1",
+          "name": {
+            "en": "Rice choice"
+          },
+          "min_selections": 1,
+          "max_selections": 1,
+          "options": [
+            {
+              "id": "o1",
+              "name": {
+                "en": "White rice",
+                "fr": "Riz blanc"
+              },
+              "default": true,
+              "advisories": [
+                "raw-egg"
+              ]
+            },
+            {
+              "id": "o2",
+              "name": {
+                "en": "Brown rice",
+                "fr": "Riz complet"
+              },
+              "price_adjustment": 3,
+              "advisories": []
+            }
+          ]
+        },
+        {
+          "id": "sides",
+          "name": {
+            "en": "Sides",
+            "fr": "Accompagnements"
+          },
+          "description": {
+            "en": "Two of your choice, from either list",
+            "fr": "Deux au choix, dans l'une ou l'autre liste"
+          },
+          "max_selections": 2,
+          "sections": [
+            {
+              "id": "s-hot",
+              "name": {
+                "en": "Hot sides",
+                "fr": "Accompagnements chauds"
+              }
+            },
+            {
+              "id": "s-cold",
+              "name": {
+                "en": "Cold sides",
+                "fr": "Accompagnements froids"
+              }
+            }
+          ],
+          "options": [
+            {
+              "id": "sd-fries",
+              "name": {
+                "en": "Fries",
+                "fr": "Frites"
+              },
+              "section_id": "s-hot"
+            },
+            {
+              "id": "sd-rice",
+              "name": {
+                "en": "Rice",
+                "fr": "Riz"
+              },
+              "section_id": "s-hot"
+            },
+            {
+              "id": "sd-greens",
+              "name": {
+                "en": "Green salad",
+                "fr": "Salade verte"
+              },
+              "section_id": "s-cold"
+            },
+            {
+              "id": "sd-slaw",
+              "name": {
+                "en": "Coleslaw",
+                "fr": "Salade de chou"
+              },
+              "section_id": "s-cold"
+            },
+            {
+              "id": "sd-bread",
+              "name": {
+                "en": "Bread",
+                "fr": "Pain"
+              }
+            }
+          ]
+        }
+      ],
+      "advisories": []
+    },
+    {
+      "id": "d1004",
+      "name": {
+        "en": "Grilled Salmon",
+        "he": "סלמון צלוי"
+      },
+      "description": {
+        "en": "Wild-caught salmon with lemon-herb sauce, served with roasted potatoes"
+      },
+      "category_id": "c2",
+      "sort_order": 2,
+      "price": 68,
+      "nutritional_info": {
+        "calories": 450,
+        "protein": 38,
+        "fat": 22,
+        "carbohydrates": 25,
+        "sugar": 2
+      },
+      "allergens": [
+        "fish"
+      ],
+      "tags": [
+        "gluten-free",
+        "dairy-free"
+      ],
+      "ingredients": [
+        {
+          "name": "salmon fillet",
+          "amount_grams": 180
+        },
+        {
+          "name": "potatoes",
+          "amount_grams": 150
+        },
+        {
+          "name": "olive oil",
+          "amount_grams": 15
+        },
+        {
+          "name": "lemon juice",
+          "amount_grams": 10
+        },
+        {
+          "name": "fresh herbs",
+          "amount_grams": 5,
+          "raw_or_cooked": "raw"
+        }
+      ]
+    }
+  ]
+}

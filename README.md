@@ -45,12 +45,49 @@ Restaurants create a `.json` menu file following the OpenFood schema. Apps and t
 
 ```json
 {
-  "openfood_version": "0.2.0",
+  "openfood_version": "0.6.0",
   "restaurant": { ... },
+  "services": [ ... ],
   "categories": [ ... ],
   "menu": [ ... ]
 }
 ```
+
+### Several menus
+
+A kitchen that serves lunch, dinner and a bar list does not have one menu with
+three sections; it has three menus, and the same room prints all of them.
+`services` names them, and categories and dishes say which they are printed in:
+
+```json
+{
+  "services": [
+    {
+      "id": "lunch",
+      "name": { "en": "Lunch" },
+      "hours": { "fri": [{ "start": "12:00", "end": "15:00" }] }
+    },
+    { "id": "bar", "name": { "en": "Bar" } }
+  ],
+  "categories": [{ "id": "c2", "name": { "en": "Mains" }, "service_ids": ["lunch"] }],
+  "menu": [{ "id": "d1", "name": { "en": "Pad Thai" }, "price": 52, "service_ids": ["lunch"] }]
+}
+```
+
+Resolution is three steps and no more: a dish is printed in the services its own
+`service_ids` names; failing that, in the ones its category names; failing both,
+in every service. An id naming a service the document does not declare is
+ignored, and an empty array reads as an absent one, so no arrangement of these
+fields can produce a dish that appears nowhere.
+
+Every dish stays in the one flat `menu` array, so a consumer that ignores
+`services` reads exactly the menu it read before, and every question answered
+from the whole menu — allergens, diets, search, the price range — keeps its
+answer. `hours` is optional: a bar or children's menu is a menu, not a sitting.
+
+A dish that costs less at lunch is **two entries with two ids**, not one entry
+with two prices — an order line resolves by dish id. See
+[`examples/v0.6.0-example.json`](./examples/v0.6.0-example.json).
 
 ### Example
 

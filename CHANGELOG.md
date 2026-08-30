@@ -1,5 +1,61 @@
 # Changelog
 
+## [0.6.0] - 2026-08-30
+
+### Added
+
+- Top-level `services[]`, plus `categories[].service_ids` and
+  `menu[].service_ids` — the several menus one restaurant prints.
+
+  A kitchen that serves lunch, dinner and a bar list does not have one menu with
+  three sections; it has three menus, and the same room prints all of them. The
+  schema could say only one of two things about that, and both were wrong.
+  Flattening them into a single list puts the bar's arak beside the tasting menu
+  and offers a diner at 13:00 a dish the kitchen will not cook until six.
+  Publishing a document per menu splits one restaurant into three: three
+  addresses, three sets of opening hours, three answers to "is anything here
+  gluten free", and nothing joining them back together.
+
+  A service is a heading, not a container — the same shape `sections` took in
+  0.5.0, and for the same reason. Every dish stays in the one flat `menu` array
+  and names its services by id, so a consumer that has never heard of `services`
+  reads exactly the array it read before, and every question answered from the
+  whole menu — allergens, diets, search, the price range — keeps its old answer.
+  Nothing moves; only what is printed together changes.
+
+  Resolution is three steps and no more: a dish is printed in the services its
+  own `service_ids` names; failing that, in the ones its category names; failing
+  both, in every service. Two rules keep the steps from ever losing a dish. An
+  id naming a service the document does not declare is **ignored** rather than
+  treated as an error, the same forgiving reading 0.5.0 gave an option naming a
+  section its group does not declare — a label is never a reason to lose a
+  choice a diner can order. And an **empty array reads as an absent one**: a
+  writer whose checkbox list is emptied will emit `[]`, and the only other
+  available reading, "printed in no service", is a dish nobody can see, which is
+  never what an empty checkbox meant.
+
+  A dish that costs less at lunch is a second dish, with its own id and its own
+  price, tagged to the lunch service. There is deliberately no per-service
+  price: a price that changes depending on which heading you read it under is a
+  price an order line cannot resolve, and an order line resolves by dish id.
+
+  `services[].hours` is the same weekday map as `restaurant.hours`, split shifts
+  and all, rather than the narrower `{days, time_range}` a dish carries. A dish
+  makes a small claim — "this is a breakfast item" — where a shift is the entire
+  reason a service exists, and the dish shape cannot spell one: it has a single
+  `time_range`, so it cannot say that lunch runs to 16:00 on Sunday and 15:00 on
+  Friday without minting a second service to hold a clock value. `hours` is
+  optional, because a bar list and a children's menu are menus rather than
+  sittings. And it says only when a service is served, never what a consumer
+  must do about it: a document carries no time zone, and the reader's clock is
+  not one the kitchen shares.
+
+  Fully backwards compatible in both directions: every 0.5.0 document is valid
+  0.6.0, and a 0.6.0 document that uses none of the three fields is valid 0.5.0.
+  A consumer pinned to 0.5.0 will reject a document that uses them, since the
+  document root, `categories.items` and `menu.items` are all
+  `additionalProperties: false`.
+
 ## [0.5.0] - 2026-08-28
 
 ### Added
